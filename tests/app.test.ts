@@ -3,7 +3,10 @@ import { afterEach, beforeEach, describe, expect, it, vi, type Mock } from 'vite
 import siteConfigFile from '../site.config.json';
 import {
   FORM_FRAME_TITLE,
+  FORM_LOADING_ID,
   FORM_MOUNT_ID,
+  FRAME_HEIGHT_SUBMIT,
+  FRAME_HEIGHT_VIEW,
   SUBMIT_STATUS_ID,
   SUBMIT_STATUS_TEXT,
   frameClassFor,
@@ -17,11 +20,11 @@ import { fakeObserver, loadEvent } from './helpers';
 const config = validateSiteConfig(siteConfigFile, { production: false });
 
 describe('frameClassFor', () => {
-  it('uses a tall frame for the form and a short one for the confirmation', () => {
-    expect(frameClassFor('view')).toContain('h-[1900px]');
-    expect(frameClassFor('view')).toContain('sm:h-[1600px]');
-    expect(frameClassFor('submit')).toContain('h-[420px]');
-    expect(frameClassFor('submit')).not.toContain('h-[1900px]');
+  it('uses the tall responsive frame for the form and a short one for the confirmation', () => {
+    expect(frameClassFor('view')).toContain(FRAME_HEIGHT_VIEW);
+    expect(frameClassFor('view')).not.toContain(FRAME_HEIGHT_SUBMIT);
+    expect(frameClassFor('submit')).toContain(FRAME_HEIGHT_SUBMIT);
+    expect(frameClassFor('submit')).not.toContain(FRAME_HEIGHT_VIEW);
   });
 
   it('keeps the shared classes in both phases', () => {
@@ -36,6 +39,7 @@ describe('index.html contract', () => {
   it('contains the elements initApp looks for', () => {
     expect(html).toContain(`id="${FORM_MOUNT_ID}"`);
     expect(html).toContain(`id="${SUBMIT_STATUS_ID}"`);
+    expect(html).toContain(`id="${FORM_LOADING_ID}"`);
   });
 
   it('declares Argentine Spanish', () => {
@@ -48,7 +52,9 @@ describe('initApp', () => {
   let reveal: Mock<NonNullable<AppDeps['reveal']>>;
 
   beforeEach(() => {
-    document.body.innerHTML = `<div id="${FORM_MOUNT_ID}"></div><p id="${SUBMIT_STATUS_ID}"></p>`;
+    document.body.innerHTML =
+      `<div id="${FORM_MOUNT_ID}"><p id="${FORM_LOADING_ID}">Cargando formulario…</p></div>` +
+      `<p id="${SUBMIT_STATUS_ID}"></p>`;
     track = vi.fn(() => true);
     reveal = vi.fn();
   });
@@ -102,6 +108,19 @@ describe('initApp', () => {
     loadEvent(handle.iframe);
     expect(track).not.toHaveBeenCalled();
     expect(handle.iframe.className).toBe(frameClassFor('view'));
+  });
+
+  it('keeps the loading hint until the form has loaded, then removes it', () => {
+    const { handle } = start();
+    expect(document.getElementById(FORM_LOADING_ID)).not.toBeNull();
+    loadEvent(handle.iframe);
+    expect(document.getElementById(FORM_LOADING_ID)).toBeNull();
+  });
+
+  it('works without the loading hint', () => {
+    document.getElementById(FORM_LOADING_ID)?.remove();
+    const { handle } = start();
+    expect(() => loadEvent(handle.iframe)).not.toThrow();
   });
 
   it('sends game_submitted, shrinks the frame, announces and reveals on the second load', () => {

@@ -11,14 +11,26 @@ import type { FormPhase } from './form-tracker';
 export const FORM_MOUNT_ID = 'form-mount';
 /** `id` of the visually hidden live region that announces a received submission. */
 export const SUBMIT_STATUS_ID = 'submit-status';
+/** `id` of the "loading" hint that sits behind the iframe until the form has loaded. */
+export const FORM_LOADING_ID = 'form-loading';
 
 /** Accessible name of the iframe. */
 export const FORM_FRAME_TITLE = 'Formulario para sumar tu juego a los lanzamientos argentinos de Steam';
 
 const FRAME_BASE = 'relative block w-full border-0';
-/** The empty form is tall; the confirmation page that replaces it is short. */
-const FRAME_HEIGHT_VIEW = 'h-[1900px] sm:h-[1600px]';
-const FRAME_HEIGHT_SUBMIT = 'h-[420px]';
+/**
+ * Height of the embedded form page. Google's embed does not report its height to the parent, so
+ * it is estimated from the viewport width V (the iframe is V - 32 px wide, at most 736 px).
+ * Measured content height of the 11-question form, with validation errors showing (2026-10-03):
+ *   V=320 -> 3189, 360 -> 2998, 390 -> 2914, 414 -> 2834, 600 -> 2571, 640 -> 2527, 700 -> 2497, V>=768 -> 2477.
+ * The expression is the upper envelope of two straight lines through those points plus a 120 px
+ * safety margin, with a floor for wide screens. `tests/form-height.test.ts` checks it against the table.
+ * Re-measure and update both when the form gets more questions or Google changes the embed.
+ */
+export const FRAME_HEIGHT_VIEW =
+  'h-[max(2600px,calc(3309px_-_3.78*(100vw_-_320px)),calc(2954px_-_1.01*(100vw_-_414px)))]';
+/** The confirmation page that replaces the form is short. */
+export const FRAME_HEIGHT_SUBMIT = 'h-[420px]';
 
 /** Text read by screen readers once the confirmation page has loaded. */
 export const SUBMIT_STATUS_TEXT = 'Recibimos tu envío. ¡Gracias por sumar tu juego!';
@@ -54,6 +66,7 @@ export function initApp(deps: AppDeps): EmbedHandle | null {
     return null;
   }
   const status = deps.document.getElementById(SUBMIT_STATUS_ID);
+  const loading = deps.document.getElementById(FORM_LOADING_ID);
   const track = deps.track ?? defaultTrack;
   const reveal = deps.reveal ?? revealElement;
 
@@ -66,6 +79,8 @@ export function initApp(deps: AppDeps): EmbedHandle | null {
       track(ANALYTICS_EVENTS.formVisible);
     },
     onPhase: (phase, _loads, iframe) => {
+      // The form is on screen now: drop the hint so screen readers stop reading "Cargando formulario…".
+      loading?.remove();
       iframe.className = frameClassFor(phase);
       if (status !== null) {
         status.textContent = phase === 'submit' ? SUBMIT_STATUS_TEXT : '';

@@ -43,7 +43,7 @@ describe.skipIf(!existsSync(indexPath))(`build output in ${buildDir}`, () => {
 
   it('ships the stylesheet with classes used only in the HTML and in the TypeScript sources', () => {
     expect(css).toContain('.bg-amber-400');
-    expect(css).toContain('.h-\\[1900px\\]');
+    expect(css).toContain('height:max(2600px,');
     expect(css).toContain('.h-\\[420px\\]');
   });
 
