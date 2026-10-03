@@ -58,6 +58,10 @@ describe.skipIf(!existsSync(indexPath))(`build output in ${buildDir}`, () => {
       .filter((name) => name.endsWith('.js'))
       .map((name) => readFileSync(join(buildDir, 'assets', name), 'utf8'))
       .join('\n');
-    expect(script).not.toContain('FORM_ID');
+    // The bundle also holds the placeholder constants used by the config validator,
+    // so check the embedded config values instead of the bare placeholder words.
+    expect(script).toContain(siteConfigFile.analytics.measurementId);
+    expect(script).toContain(siteConfigFile.form.viewUrl);
+    expect(script).not.toContain('https://docs.google.com/forms/d/e/FORM_ID/viewform');
   });
 });
