@@ -99,6 +99,14 @@ Steam BBCode template (only tags supported by Steam are used):
 - Realtime: quick check after a deploy.
 - `game_submitted` must be marked as a key event (Admin -> Data display -> Key events). Marking is not retroactive.
 
+## Form frame height
+
+Google's embed does not tell the page how tall the form is, so the iframe height is estimated from the viewport
+width (`FRAME_HEIGHT_VIEW` in `src/app.ts`; the measured content heights are in `tests/form-height.test.ts`).
+When you add or remove questions, or change long texts, load the live page at 320, 390, 640 and 1280 px wide,
+click "Enviar" on the empty form and check that the frame has no inner scrollbar and no big blank gap. Then update
+the measured table and the expression together: `npm test` fails when the frame is too short or too tall for the table.
+
 ## Closing and reopening the form
 
 Close the form from the Google Forms editor (Responses tab -> "Accepting responses" switch). With the Google
