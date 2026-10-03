@@ -43,8 +43,10 @@ describe.skipIf(!existsSync(indexPath))(`build output in ${buildDir}`, () => {
 
   it('ships the stylesheet with classes used only in the HTML and in the TypeScript sources', () => {
     expect(css).toContain('.bg-amber-400');
-    expect(css).toContain('height:max(2600px,');
-    expect(css).toContain('.h-\\[420px\\]');
+    expect(css).toContain('height:max(2440px,');
+    // Confirmation-page steps: the base height and the first min-width step.
+    expect(css).toContain('.h-\\[539px\\]');
+    expect(css).toContain('.min-\\[360px\\]\\:h-\\[479px\\]');
   });
 
   it('adds .nojekyll so GitHub Pages serves the files as they are', () => {

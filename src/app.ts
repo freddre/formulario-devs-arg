@@ -21,16 +21,29 @@ const FRAME_BASE = 'relative block w-full border-0';
 /**
  * Height of the embedded form page. Google's embed does not report its height to the parent, so
  * it is estimated from the viewport width V (the iframe is V - 32 px wide, at most 736 px).
- * Measured content height of the 11-question form, with validation errors showing (2026-10-03):
- *   V=320 -> 3189, 360 -> 2998, 390 -> 2914, 414 -> 2834, 600 -> 2571, 640 -> 2527, 700 -> 2497, V>=768 -> 2477.
- * The expression is the upper envelope of two straight lines through those points plus a 120 px
- * safety margin, with a floor for wide screens. `tests/form-height.test.ts` checks it against the table.
- * Re-measure and update both when the form gets more questions or Google changes the embed.
+ * Measured content height of the 10-question form, with a validation error showing (2026-10-03):
+ *   V=320 -> 3006, 340 -> 2898, 360 -> 2815, 375 -> 2775, 390 -> 2751, 414 -> 2671, 450 -> 2592,
+ *   500 -> 2528, 550 -> 2428, 600 -> 2408, 640 -> 2344, 700 -> 2334, V>=768 -> 2314.
+ * The expression is the upper envelope of two straight lines (through the 320 / 414 / 768 px points)
+ * plus a 120 px safety margin, with a floor for wide screens. `tests/form-height.test.ts` checks it
+ * against the table. Re-measure and update both when the form gets more questions or Google changes the embed.
  */
-export const FRAME_HEIGHT_VIEW =
-  'h-[max(2600px,calc(3309px_-_3.78*(100vw_-_320px)),calc(2954px_-_1.01*(100vw_-_414px)))]';
-/** The confirmation page that replaces the form is short. */
-export const FRAME_HEIGHT_SUBMIT = 'h-[420px]';
+export const FRAME_HEIGHT_VIEW = 'h-[max(2440px,calc(3126px_-_3.56*(100vw_-_320px)),calc(3205px_-_100vw))]';
+/**
+ * The confirmation page that replaces the form is short, and its height only changes where its texts wrap.
+ * Measured content height (2026-10-03, on an 8 px width grid) by viewport width V:
+ *   V<=352 -> 489, 360-408 -> 429, 416-440 -> 389, 448-576 -> 369, 584-616 -> 349, V>=624 -> 309.
+ * Each step switches at the first measured width of the shorter content, so the unmeasured gap before it
+ * keeps the taller height, and every step adds a 50 px margin (Google's texts change with the visitor's language).
+ */
+export const FRAME_HEIGHT_SUBMIT = [
+  'h-[539px]',
+  'min-[360px]:h-[479px]',
+  'min-[416px]:h-[439px]',
+  'min-[448px]:h-[419px]',
+  'min-[584px]:h-[399px]',
+  'min-[624px]:h-[359px]',
+].join(' ');
 
 /** Text read by screen readers once the confirmation page has loaded. */
 export const SUBMIT_STATUS_TEXT = 'Recibimos tu envío. ¡Gracias por sumar tu juego!';

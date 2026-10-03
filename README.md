@@ -69,7 +69,7 @@ GitHub Pages rebuilds in about a minute. Always commit `docs/` together with the
 
 ## Weekly routine
 
-1. Open the Google Sheet with the responses and review the new rows (check the Steam link, studio and province).
+1. Open the Google Sheet with the responses and review the new rows (check the Steam link and studio).
 2. Write the announcement in Steam BBCode (template below) and post it in the group.
 3. Use a tagged link so GA4 can attribute the visits:
 
@@ -86,8 +86,8 @@ Steam BBCode template (only tags supported by Steam are used):
 ```
 [h1]Lanzamientos argentinos de la semana[/h1]
 [list]
-[*][url=STEAM_URL][b]JUEGO[/b][/url] - ESTUDIO (PROVINCIA) - sale el DD/MM
-[*][url=STEAM_URL][b]JUEGO[/b][/url] - ESTUDIO (PROVINCIA) - sale el DD/MM
+[*][url=STEAM_URL][b]JUEGO[/b][/url] - ESTUDIO - sale el DD/MM
+[*][url=STEAM_URL][b]JUEGO[/b][/url] - ESTUDIO - sale el DD/MM
 [/list]
 ¿Desarrollás un juego en Steam desde Argentina? Cargalo acá: [url=TAGGED_LINK]formulario[/url]
 ```
@@ -101,11 +101,17 @@ Steam BBCode template (only tags supported by Steam are used):
 
 ## Form frame height
 
-Google's embed does not tell the page how tall the form is, so the iframe height is estimated from the viewport
-width (`FRAME_HEIGHT_VIEW` in `src/app.ts`; the measured content heights are in `tests/form-height.test.ts`).
-When you add or remove questions, or change long texts, load the live page at 320, 390, 640 and 1280 px wide,
-click "Enviar" on the empty form and check that the frame has no inner scrollbar and no big blank gap. Then update
-the measured table and the expression together: `npm test` fails when the frame is too short or too tall for the table.
+Google's embed does not tell the page how tall it is, so the iframe height is estimated from the viewport width:
+`FRAME_HEIGHT_VIEW` for the form and `FRAME_HEIGHT_SUBMIT` for the confirmation page, both in `src/app.ts`. The
+measured content heights are in `tests/form-height.test.ts`.
+
+When you add or remove questions, or change long texts, re-measure: load the live page at several widths (320, 390,
+640 and 1280 px at least), click "Enviar" on the empty form, force the iframe to 100 px tall and read
+`document.scrollingElement.scrollHeight` inside it (with a taller frame that value is just the frame height).
+The confirmation page needs a real test submission: send one with the game name "[PRUEBA] borrar", measure it the
+same way, then delete the test row from the Sheet and the response from the form (Responses tab -> "Delete all
+responses"). Update the measured tables and the expressions together: `npm test` fails when a frame is too short
+or too tall for its table.
 
 ## Closing and reopening the form
 
