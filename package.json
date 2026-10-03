@@ -1,0 +1,28 @@
+{
+  "name": "formulario-devs-arg",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Landing page with an embedded Google Form so Argentine Steam developers can submit their games for the weekly releases announcement.",
+  "type": "module",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "build": "vite build",
+    "build:check": "vite build --mode check --outDir .check-build",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "coverage": "vitest run --coverage",
+    "verify": "npm run typecheck && npm run build && npm run test"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.3",
+    "@types/node": "^22.20.5",
+    "@vitest/coverage-v8": "^5.0.3",
+    "jsdom": "^29.1.1",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.2",
+    "vitest": "^5.0.3"
+  }
+}

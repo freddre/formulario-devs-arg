@@ -1,0 +1,18 @@
+{
+  "siteUrl": "https://freddre.github.io/formulario-devs-arg/",
+  "analytics": {
+    "measurementId": "G-XXXXXXXXXX"
+  },
+  "form": {
+    "viewUrl": "https://docs.google.com/forms/d/e/FORM_ID/viewform"
+  },
+  "steamGroup": {
+    "name": "Steam Argentina",
+    "url": "https://steamcommunity.com/groups/argentina"
+  },
+  "contact": {
+    "label": "el Discord de Steam Argentina",
+    "href": "https://discord.gg/VPhJYNKMTE"
+  },
+  "cutoffText": ""
+}
