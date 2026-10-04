@@ -22,7 +22,9 @@ describe.skipIf(!existsSync(indexPath))(`build output in ${buildDir}`, () => {
 
   it('declares Argentine Spanish and keeps the document title', () => {
     expect(html).toContain('lang="es-AR"');
-    expect(html).toContain('<title>Sumá tu juego a los lanzamientos argentinos de Steam</title>');
+    expect(html).toContain(
+      `<title>Sumá tu juego a los lanzamientos argentinos en Steam · ${siteConfigFile.steamGroup.name}</title>`,
+    );
   });
 
   it('has no unresolved template markers', () => {
@@ -41,8 +43,14 @@ describe.skipIf(!existsSync(indexPath))(`build output in ${buildDir}`, () => {
     expect(html).not.toMatch(/(?:src|href)="\/(?!\/)/);
   });
 
+  it('ships the share preview image that og:image points to', () => {
+    expect(html).toContain(`<meta property="og:image" content="${siteConfigFile.siteUrl}og-image.png" />`);
+    expect(existsSync(join(buildDir, 'og-image.png'))).toBe(true);
+  });
+
   it('ships the stylesheet with classes used only in the HTML and in the TypeScript sources', () => {
     expect(css).toContain('.bg-amber-400');
+    expect(css).toContain('.text-celeste-300');
     expect(css).toContain('height:max(2440px,');
     // Confirmation-page steps: the base height and the first min-width step.
     expect(css).toContain('.h-\\[539px\\]');

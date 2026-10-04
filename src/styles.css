@@ -1,3 +1,14 @@
 @import "tailwindcss" source(none);
 @source "../index.html";
 @source "./";
+
+/*
+ * Accent palette. "Celeste" is the light blue of the Argentine flag; it replaces Tailwind's sky,
+ * which is closer to the blue Steam uses and could make the site look official.
+ */
+@theme {
+  --color-celeste-200: #cfe0f3;
+  --color-celeste-300: #a3c4e8;
+  --color-celeste-400: #75aadb;
+  --color-celeste-500: #4f8bc4;
+}

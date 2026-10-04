@@ -3,22 +3,31 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Sumá tu juego a los lanzamientos argentinos de Steam</title>
+    <title>Sumá tu juego a los lanzamientos argentinos en Steam · {{steamGroupName}}</title>
     <meta
       name="description"
-      content="Formulario para estudios y desarrolladores/as de Argentina: cargá tu juego y sumalo al anuncio semanal del grupo de Steam Argentina."
+      content="Formulario para estudios y desarrolladores/as de Argentina: cargá tu juego y sumalo al anuncio semanal de la {{steamGroupName}}."
     />
     <meta name="theme-color" content="#0f172a" />
     <link rel="canonical" href="{{siteUrl}}" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="es_AR" />
-    <meta property="og:title" content="Sumá tu juego a los lanzamientos argentinos de Steam" />
+    <meta property="og:site_name" content="{{steamGroupName}}" />
+    <meta property="og:title" content="Sumá tu juego a los lanzamientos argentinos en Steam" />
     <meta
       property="og:description"
-      content="Cargá tu juego y sumalo al anuncio semanal del grupo de Steam Argentina."
+      content="Cargá tu juego y sumalo al anuncio semanal de la {{steamGroupName}}."
     />
     <meta property="og:url" content="{{siteUrl}}" />
+    <meta property="og:image" content="{{siteUrl}}og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="{{steamGroupName}}: Sumá tu juego a los lanzamientos argentinos en Steam"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
 
     <!-- Google Analytics 4: analytics storage only, ad storage denied. Events: see src/analytics.ts -->
     <script async src="https://www.googletagmanager.com/gtag/js?id={{measurementId}}"></script>
@@ -39,29 +48,80 @@
     <script type="module" src="/src/main.ts"></script>
   </head>
   <body class="min-h-screen bg-slate-900 font-sans text-base leading-relaxed text-slate-100 antialiased">
+    <!-- Shared SVG symbols, used with <use href="#id">. Colors come from currentColor (text-* utilities). -->
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="absolute size-0 overflow-hidden">
+      <!-- Sun (inspired by the Sol de Mayo): a disc and 16 rays, long and short alternating. The ray thickness comes from stroke-width on the <svg> that uses it. -->
+      <symbol id="sol" viewBox="0 0 64 64">
+        <circle cx="32" cy="32" r="10" fill="currentColor" />
+        <g stroke="currentColor" stroke-linecap="round">
+          <line x1="32" y1="15" x2="32" y2="3" />
+          <line x1="38.51" y1="16.29" x2="41.57" y2="8.9" />
+          <line x1="44.02" y1="19.98" x2="52.51" y2="11.49" />
+          <line x1="47.71" y1="25.49" x2="55.1" y2="22.43" />
+          <line x1="49" y1="32" x2="61" y2="32" />
+          <line x1="47.71" y1="38.51" x2="55.1" y2="41.57" />
+          <line x1="44.02" y1="44.02" x2="52.51" y2="52.51" />
+          <line x1="38.51" y1="47.71" x2="41.57" y2="55.1" />
+          <line x1="32" y1="49" x2="32" y2="61" />
+          <line x1="25.49" y1="47.71" x2="22.43" y2="55.1" />
+          <line x1="19.98" y1="44.02" x2="11.49" y2="52.51" />
+          <line x1="16.29" y1="38.51" x2="8.9" y2="41.57" />
+          <line x1="15" y1="32" x2="3" y2="32" />
+          <line x1="16.29" y1="25.49" x2="8.9" y2="22.43" />
+          <line x1="19.98" y1="19.98" x2="11.49" y2="11.49" />
+          <line x1="25.49" y1="16.29" x2="22.43" y2="8.9" />
+        </g>
+      </symbol>
+      <symbol id="check" viewBox="0 0 16 16">
+        <path
+          d="m3.5 8.5 3 3 6-6.5"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </symbol>
+      <symbol id="arrow-down" viewBox="0 0 20 20">
+        <path
+          d="M10 4v11M5.5 10.5 10 15l4.5-4.5"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </symbol>
+    </svg>
+
     <a
       href="#formulario"
       class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:rounded-lg focus:bg-amber-400 focus:px-4 focus:py-3 focus:font-semibold focus:text-slate-900"
       >Saltar al formulario</a
     >
 
-    <div aria-hidden="true" class="flex h-3 flex-col">
-      <span class="flex-1 bg-sky-400"></span>
-      <span class="flex-1 bg-white"></span>
-      <span class="flex-1 bg-sky-400"></span>
-    </div>
-
-    <header class="bg-linear-to-b from-sky-950/70 to-slate-900">
-      <div class="mx-auto max-w-3xl px-4 py-12 sm:py-16">
-        <p class="text-sm font-semibold tracking-widest text-sky-300 uppercase">
-          {{steamGroupName}} · Lanzamientos de la semana
+    <header class="relative overflow-hidden bg-linear-to-b from-sky-950/70 to-slate-900">
+      <svg
+        aria-hidden="true"
+        stroke-width="1.5"
+        class="pointer-events-none absolute -top-10 -right-32 size-72 text-celeste-400/[0.09] sm:-top-24 sm:-right-16 sm:size-[30rem]"
+      >
+        <use href="#sol" />
+      </svg>
+      <div class="relative mx-auto max-w-3xl px-4 py-12 sm:py-16">
+        <p class="flex items-center gap-3">
+          <svg aria-hidden="true" stroke-width="3" class="size-10 shrink-0 text-amber-400"><use href="#sol" /></svg>
+          <span class="flex flex-col leading-tight">
+            <span class="text-sm font-bold tracking-widest text-celeste-300 uppercase">{{steamGroupName}}</span>
+            <span class="text-sm text-slate-400">Lanzamientos de la semana</span>
+          </span>
         </p>
-        <h1 class="mt-3 text-3xl font-extrabold tracking-tight text-balance text-white sm:text-5xl">
-          Sumá tu juego a los lanzamientos argentinos de Steam
+        <h1 class="mt-6 text-3xl font-extrabold tracking-tight text-balance text-white sm:text-5xl md:text-6xl">
+          Sumá tu juego a los lanzamientos <span class="text-celeste-300">argentinos</span> en Steam
         </h1>
-        <p class="mt-5 text-lg text-pretty text-slate-300">
-          Todas las semanas el grupo de Steam Argentina anuncia los juegos que lanzan estudios y desarrolladores/as de
-          acá. Cargá el tuyo en este formulario y lo sumamos al próximo anuncio.
+        <p class="mt-5 max-w-2xl text-lg text-pretty text-slate-300">
+          Todas las semanas la {{steamGroupName}} anuncia los juegos que lanzan estudios y desarrolladores/as de acá.
+          Cargá el tuyo en este formulario y lo sumamos al próximo anuncio.
         </p>
         {{#if cutoffText}}
         <p class="mt-5 inline-block rounded-lg bg-amber-400/15 px-3 py-2 font-medium text-amber-300">
@@ -71,10 +131,20 @@
         <p class="mt-8">
           <a
             href="#formulario"
-            class="inline-flex min-h-11 items-center rounded-xl bg-amber-400 px-6 py-3 font-bold text-slate-900 hover:bg-amber-300 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-sky-300"
-            >Cargar mi juego</a
-          >
+            class="inline-flex min-h-11 items-center gap-2 rounded-xl bg-amber-400 px-6 py-3 font-bold text-slate-900 shadow-lg shadow-amber-400/10 hover:bg-amber-300 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-celeste-300"
+            >Cargar mi juego<svg aria-hidden="true" class="size-5"><use href="#arrow-down" /></svg
+          ></a>
         </p>
+        <ul role="list" class="mt-6 flex flex-wrap gap-x-6 gap-y-2 text-sm text-slate-300">
+          <li class="flex items-center gap-2">
+            <svg aria-hidden="true" class="size-4 shrink-0 text-celeste-400"><use href="#check" /></svg>
+            Lleva menos de 2 minutos
+          </li>
+          <li class="flex items-center gap-2">
+            <svg aria-hidden="true" class="size-4 shrink-0 text-celeste-400"><use href="#check" /></svg>
+            Solo para estudios con base en Argentina
+          </li>
+        </ul>
       </div>
     </header>
 
@@ -82,34 +152,87 @@
       <section aria-labelledby="como-funciona-titulo">
         <h2 id="como-funciona-titulo" class="text-2xl font-bold text-white">Cómo funciona</h2>
         <ol role="list" class="mt-6 grid gap-4 sm:grid-cols-3">
-          <li class="rounded-2xl border border-slate-700 bg-slate-800/60 p-5">
-            <span
-              aria-hidden="true"
-              class="flex size-9 items-center justify-center rounded-full bg-sky-400 font-bold text-slate-900"
-              >1</span
-            >
+          <li class="rounded-2xl border border-white/10 bg-slate-800/50 p-5 shadow-lg shadow-black/10">
+            <div class="flex items-center justify-between">
+              <span
+                aria-hidden="true"
+                class="flex size-11 items-center justify-center rounded-xl bg-celeste-400/15 text-celeste-300 ring-1 ring-celeste-400/30"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.75"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="size-6"
+                >
+                  <path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z" />
+                  <path d="M14 3v5h5M9 13h6M9 17h4" />
+                </svg>
+              </span>
+              <span aria-hidden="true" class="text-sm font-semibold tracking-widest text-slate-400 uppercase"
+                >Paso 1</span
+              >
+            </div>
             <h3 class="mt-4 text-lg font-semibold text-white">Cargá tu juego</h3>
             <p class="mt-1 text-slate-300">Completá el formulario con el link de Steam y la fecha de lanzamiento.</p>
           </li>
-          <li class="rounded-2xl border border-slate-700 bg-slate-800/60 p-5">
-            <span
-              aria-hidden="true"
-              class="flex size-9 items-center justify-center rounded-full bg-sky-400 font-bold text-slate-900"
-              >2</span
-            >
+          <li class="rounded-2xl border border-white/10 bg-slate-800/50 p-5 shadow-lg shadow-black/10">
+            <div class="flex items-center justify-between">
+              <span
+                aria-hidden="true"
+                class="flex size-11 items-center justify-center rounded-xl bg-celeste-400/15 text-celeste-300 ring-1 ring-celeste-400/30"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.75"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="size-6"
+                >
+                  <circle cx="11" cy="11" r="6.5" />
+                  <path d="m20 20-4.2-4.2M8.5 11l1.8 1.8 3.2-3.4" />
+                </svg>
+              </span>
+              <span aria-hidden="true" class="text-sm font-semibold tracking-widest text-slate-400 uppercase"
+                >Paso 2</span
+              >
+            </div>
             <h3 class="mt-4 text-lg font-semibold text-white">Lo revisamos</h3>
             <p class="mt-1 text-slate-300">
               Verificamos que la página de Steam exista y que el estudio sea de Argentina.
             </p>
           </li>
-          <li class="rounded-2xl border border-slate-700 bg-slate-800/60 p-5">
-            <span
-              aria-hidden="true"
-              class="flex size-9 items-center justify-center rounded-full bg-sky-400 font-bold text-slate-900"
-              >3</span
-            >
+          <li class="rounded-2xl border border-white/10 bg-slate-800/50 p-5 shadow-lg shadow-black/10">
+            <div class="flex items-center justify-between">
+              <span
+                aria-hidden="true"
+                class="flex size-11 items-center justify-center rounded-xl bg-celeste-400/15 text-celeste-300 ring-1 ring-celeste-400/30"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.75"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="size-6"
+                >
+                  <path d="m3 11 18-5v12L3 14z" />
+                  <path d="M11.6 16.8a3 3 0 1 1-5.8-1.6" />
+                </svg>
+              </span>
+              <span aria-hidden="true" class="text-sm font-semibold tracking-widest text-slate-400 uppercase"
+                >Paso 3</span
+              >
+            </div>
             <h3 class="mt-4 text-lg font-semibold text-white">Sale en el anuncio</h3>
-            <p class="mt-1 text-slate-300">Los juegos aprobados salen en el anuncio semanal del grupo de Steam.</p>
+            <p class="mt-1 text-slate-300">
+              Los juegos aprobados salen en el anuncio semanal, publicado en nuestro grupo de Steam.
+            </p>
           </li>
         </ol>
       </section>
@@ -123,23 +246,17 @@
             href="{{contactHref}}"
             target="_blank"
             rel="noopener noreferrer"
-            class="font-medium text-sky-300 underline underline-offset-4 hover:text-sky-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-300"
+            class="font-medium text-celeste-300 underline underline-offset-4 hover:text-celeste-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-celeste-300"
             >el Discord<span class="sr-only"> (se abre en una pestaña nueva)</span></a
           >.
         </p>
-        <div class="mt-6 overflow-hidden rounded-2xl bg-white shadow-xl shadow-black/30">
-          <div id="form-mount" class="relative">
-            <p id="form-loading" class="absolute inset-x-0 top-10 text-center text-slate-600">Cargando formulario…</p>
-          </div>
-        </div>
-        <p id="submit-status" role="status" class="sr-only"></p>
-        <p class="mt-4 text-slate-300">
+        <p class="mt-2 text-sm text-slate-400">
           ¿No ves el formulario?
           <a
             href="{{formViewUrl}}"
             target="_blank"
             rel="noopener noreferrer"
-            class="font-medium text-sky-300 underline underline-offset-4 hover:text-sky-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-300"
+            class="font-medium text-celeste-300 underline underline-offset-4 hover:text-celeste-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-celeste-300"
             >Abrilo en una pestaña nueva</a
           >.
         </p>
@@ -149,25 +266,47 @@
             el link de arriba.
           </p>
         </noscript>
+        <div class="mt-6 overflow-hidden rounded-2xl bg-white shadow-xl ring-1 shadow-black/30 ring-white/10">
+          <div id="form-mount" class="relative">
+            <p id="form-loading" class="absolute inset-x-0 top-10 text-center text-slate-600">Cargando formulario…</p>
+          </div>
+        </div>
+        <p id="submit-status" role="status" class="sr-only"></p>
       </section>
 
       <section aria-labelledby="requisitos-titulo">
         <h2 id="requisitos-titulo" class="text-2xl font-bold text-white">Quiénes pueden participar</h2>
         <ul role="list" class="mt-4 space-y-3 text-slate-300">
           <li class="flex gap-3">
-            <span aria-hidden="true" class="mt-2.5 size-2 shrink-0 rounded-full bg-sky-400"></span>
+            <span
+              aria-hidden="true"
+              class="mt-0.5 flex size-6 shrink-0 items-center justify-center rounded-full bg-celeste-400/15 text-celeste-300"
+              ><svg class="size-4"><use href="#check" /></svg
+            ></span>
             <span>Estudios y desarrolladores/as con base en Argentina.</span>
           </li>
           <li class="flex gap-3">
-            <span aria-hidden="true" class="mt-2.5 size-2 shrink-0 rounded-full bg-sky-400"></span>
+            <span
+              aria-hidden="true"
+              class="mt-0.5 flex size-6 shrink-0 items-center justify-center rounded-full bg-celeste-400/15 text-celeste-300"
+              ><svg class="size-4"><use href="#check" /></svg
+            ></span>
             <span>El juego tiene que tener su página en Steam (puede estar como “Próximamente”).</span>
           </li>
           <li class="flex gap-3">
-            <span aria-hidden="true" class="mt-2.5 size-2 shrink-0 rounded-full bg-sky-400"></span>
+            <span
+              aria-hidden="true"
+              class="mt-0.5 flex size-6 shrink-0 items-center justify-center rounded-full bg-celeste-400/15 text-celeste-300"
+              ><svg class="size-4"><use href="#check" /></svg
+            ></span>
             <span>Entran lanzamientos, acceso anticipado, demos y actualizaciones grandes.</span>
           </li>
           <li class="flex gap-3">
-            <span aria-hidden="true" class="mt-2.5 size-2 shrink-0 rounded-full bg-sky-400"></span>
+            <span
+              aria-hidden="true"
+              class="mt-0.5 flex size-6 shrink-0 items-center justify-center rounded-full bg-celeste-400/15 text-celeste-300"
+              ><svg class="size-4"><use href="#check" /></svg
+            ></span>
             <span>Revisamos todos los envíos antes del anuncio: si falta algún dato, puede quedar afuera.</span>
           </li>
         </ul>
@@ -182,32 +321,36 @@
             href="{{contactHref}}"
             target="_blank"
             rel="noopener noreferrer"
-            class="font-medium text-sky-300 underline underline-offset-4 hover:text-sky-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-300"
+            class="font-medium text-celeste-300 underline underline-offset-4 hover:text-celeste-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-celeste-300"
             >{{contactLabel}}<span class="sr-only"> (se abre en una pestaña nueva)</span></a
           >. Este sitio usa Google Analytics para contar visitas de forma agregada.
         </p>
       </section>
     </main>
 
-    <footer class="border-t border-slate-800 bg-slate-950">
-      <div class="mx-auto max-w-3xl px-4 py-8 text-sm text-slate-400">
-        <p>
-          Proyecto de la comunidad del grupo de {{steamGroupName}}. Steam es una marca de Valve Corporation; este sitio
-          no está afiliado a Valve.
+    <footer class="border-t border-white/10 bg-slate-950">
+      <div class="mx-auto max-w-3xl px-4 py-10 text-sm text-slate-400">
+        <p class="flex items-center gap-3 font-semibold text-slate-200">
+          <svg aria-hidden="true" stroke-width="3" class="size-8 shrink-0 text-amber-400"><use href="#sol" /></svg>
+          {{steamGroupName}}
+        </p>
+        <p class="mt-4 max-w-2xl">
+          Proyecto independiente de la comunidad. No está afiliado ni respaldado por Valve Corporation. Steam es una
+          marca registrada de Valve Corporation.
         </p>
         <p class="mt-3 flex flex-wrap gap-x-6">
           <a
             href="{{steamGroupUrl}}"
             target="_blank"
             rel="noopener noreferrer"
-            class="inline-flex min-h-11 items-center font-medium text-sky-300 underline underline-offset-4 hover:text-sky-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-300"
+            class="inline-flex min-h-11 items-center font-medium text-celeste-300 underline underline-offset-4 hover:text-celeste-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-celeste-300"
             >Grupo en Steam<span class="sr-only"> (se abre en una pestaña nueva)</span></a
           >
           <a
             href="{{contactHref}}"
             target="_blank"
             rel="noopener noreferrer"
-            class="inline-flex min-h-11 items-center font-medium text-sky-300 underline underline-offset-4 hover:text-sky-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-300"
+            class="inline-flex min-h-11 items-center font-medium text-celeste-300 underline underline-offset-4 hover:text-celeste-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-celeste-300"
             >Discord<span class="sr-only"> (se abre en una pestaña nueva)</span></a
           >
         </p>

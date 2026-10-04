@@ -14,8 +14,8 @@ const valid = {
   siteUrl: 'https://freddre.github.io/formulario-devs-arg/',
   analytics: { measurementId: 'G-AB12CD34EF' },
   form: { viewUrl: FORM_URL },
-  steamGroup: { name: 'Steam Argentina', url: 'https://steamcommunity.com/groups/argentina' },
-  contact: { label: 'el Discord de Steam Argentina', href: 'https://discord.gg/VPhJYNKMTE' },
+  steamGroup: { name: 'Comunidad Steam Argentina', url: 'https://steamcommunity.com/groups/argentina' },
+  contact: { label: 'el Discord de la Comunidad Steam Argentina', href: 'https://discord.gg/VPhJYNKMTE' },
   cutoffText: '  Cargá tu juego antes del domingo.  ',
 };
 

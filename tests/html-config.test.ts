@@ -7,8 +7,8 @@ const fixture = {
   siteUrl: 'https://freddre.github.io/formulario-devs-arg/',
   analytics: { measurementId: 'G-AB12CD34EF' },
   form: { viewUrl: 'https://docs.google.com/forms/d/e/abc123/viewform' },
-  steamGroup: { name: 'Steam Argentina', url: 'https://steamcommunity.com/groups/argentina' },
-  contact: { label: 'el Discord de Steam Argentina', href: 'https://discord.gg/VPhJYNKMTE' },
+  steamGroup: { name: 'Comunidad Steam Argentina', url: 'https://steamcommunity.com/groups/argentina' },
+  contact: { label: 'el Discord de la Comunidad Steam Argentina', href: 'https://discord.gg/VPhJYNKMTE' },
   cutoffText: '',
 };
 
@@ -37,9 +37,9 @@ describe('templateValues', () => {
       siteUrl: config.siteUrl,
       measurementId: 'G-AB12CD34EF',
       formViewUrl: 'https://docs.google.com/forms/d/e/abc123/viewform',
-      steamGroupName: 'Steam Argentina',
+      steamGroupName: 'Comunidad Steam Argentina',
       steamGroupUrl: 'https://steamcommunity.com/groups/argentina',
-      contactLabel: 'el Discord de Steam Argentina',
+      contactLabel: 'el Discord de la Comunidad Steam Argentina',
       contactHref: 'https://discord.gg/VPhJYNKMTE',
       cutoffText: '',
     });

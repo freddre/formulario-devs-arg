@@ -1,8 +1,8 @@
 # formulario-devs-arg
 
 One-page Spanish (es-AR) site where Argentine Steam developers submit their game for the weekly releases
-announcement of the **Steam Argentina** group. The page embeds a Google Form (responses go to a Google Sheet)
-and sends two Google Analytics 4 events.
+announcement of the **Comunidad Steam Argentina** (a community-run Steam group, not affiliated with Valve). The page
+embeds a Google Form (responses go to a Google Sheet) and sends two Google Analytics 4 events.
 
 - Live site: <https://freddre.github.io/formulario-devs-arg/>
 - Hosting: GitHub Pages, served from the `docs/` folder of the `main` branch (the build output is committed).
@@ -36,7 +36,7 @@ All public values live in [`site.config.json`](site.config.json). There are no s
 | `siteUrl`                 | Public URL, with trailing slash (canonical and Open Graph tags).                        |
 | `analytics.measurementId` | GA4 Measurement ID (`G-...`).                                                           |
 | `form.viewUrl`            | Public form URL, `https://docs.google.com/forms/d/e/<id>/viewform` (no query string).   |
-| `steamGroup.name` / `url` | Steam group name and link shown in the header and footer.                               |
+| `steamGroup.name` / `url` | Community name (header, footer, page title, share preview) and Steam group link.        |
 | `contact.label` / `href`  | Contact shown in the privacy note and footer (https link, here the Discord invite).     |
 | `cutoffText`              | Optional line under the header, for example the weekly deadline. Empty hides it.        |
 
@@ -113,6 +113,23 @@ same way, then delete the test row from the Sheet and the response from the form
 responses"). Update the measured tables and the expressions together: `npm test` fails when a frame is too short
 or too tall for its table.
 
+## Branding and share preview
+
+- **Name**: always "Comunidad Steam Argentina", never "Steam Argentina" alone, and the footer states that the project
+  is independent of Valve. `tests/page-content.test.ts` fails if either rule is broken, so the site cannot pass as an
+  official Steam page.
+- **Emblem**: a sun inspired by the Sol de Mayo, drawn once as an inline SVG symbol (`#sol` in `index.html`) and reused
+  for the brand mark, the faint hero watermark and the footer. `public/favicon.svg` is the same sun on a dark tile.
+  There is deliberately no flag stripe: the Argentine identity comes from the celeste accent and the gold sun.
+- **Palette**: Tailwind's `celeste-*` tokens (the flag's light blue) are defined in `src/styles.css`; gold is
+  `amber-400`. Tailwind's `sky-*` is only used for the hero gradient.
+- **Share preview**: `public/og-image.png` (1200x630) is what Discord, WhatsApp or X show when the link is pasted.
+  Edit `tools/og-image.svg`, open it in Chrome with a 1200x630 viewport and save a screenshot over the PNG. Keep its
+  texts in sync with the `h1`. Chat apps cache previews: re-share with a new `?v=` query to see a change quickly.
+- **Google Form**: it repeats the name in its description, in the "¿Cómo te enteraste?" option and in the
+  confirmation message (Forms -> Settings -> Presentation; the Forms API cannot set that one, `ops/setup-form.gs`
+  keeps the text). When texts change, re-measure the frame heights (see "Form frame height").
+
 ## Closing and reopening the form
 
 Close the form from the Google Forms editor (Responses tab -> "Accepting responses" switch). With the Google
@@ -126,16 +143,19 @@ Close the form, then disable GitHub Pages (Settings -> Pages) or delete the repo
 
 ```
 site.config.json     public values (see Configuration)
-index.html           es-AR markup; {{placeholders}} are filled at build time
+index.html           es-AR markup; {{placeholders}} are filled at build time; inline SVG symbols (sun, check, arrow)
 vite.config.ts       base './', output to docs/, Tailwind and html-config plugins, Vitest config
+public/              favicon.svg, og-image.png, .nojekyll (copied as they are to docs/)
 tools/html-config.ts template renderer + Vite plugin that validates site.config.json
+tools/og-image.svg   source of public/og-image.png (see Branding and share preview)
 src/config.ts        types and validation of site.config.json, embed URL builder
+src/styles.css       Tailwind entry + celeste palette tokens
 src/analytics.ts     track(): GA4 event wrapper, no-op without gtag
 src/form-tracker.ts  view/submit state machine over iframe loads
 src/form-embed.ts    builds the iframe (src set before insertion) and the visibility observer
 src/app.ts           wires the modules to the page
 src/main.ts          entry point
-tests/               one suite per module plus post-build checks
+tests/               one suite per module, page-content.test.ts for the rendered page, post-build checks
 docs/                build output served by GitHub Pages (committed)
 ```
 

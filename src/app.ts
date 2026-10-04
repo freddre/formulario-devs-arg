@@ -15,7 +15,7 @@ export const SUBMIT_STATUS_ID = 'submit-status';
 export const FORM_LOADING_ID = 'form-loading';
 
 /** Accessible name of the iframe. */
-export const FORM_FRAME_TITLE = 'Formulario para sumar tu juego a los lanzamientos argentinos de Steam';
+export const FORM_FRAME_TITLE = 'Formulario para sumar tu juego a los lanzamientos argentinos en Steam';
 
 const FRAME_BASE = 'relative block w-full border-0';
 /**
