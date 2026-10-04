@@ -118,9 +118,11 @@ or too tall for its table.
 - **Name**: always "Comunidad Steam Argentina", never "Steam Argentina" alone, and the footer states that the project
   is independent of Valve. `tests/page-content.test.ts` fails if either rule is broken, so the site cannot pass as an
   official Steam page.
-- **Emblem**: a sun inspired by the Sol de Mayo, drawn once as an inline SVG symbol (`#sol` in `index.html`) and reused
-  for the brand mark, the faint hero watermark and the footer. `public/favicon.svg` is the same sun on a dark tile.
-  There is deliberately no flag stripe: the Argentine identity comes from the celeste accent and the gold sun.
+- **No decorative marks**: the hero has no flag stripes and no emblem on purpose (both were tried and dropped as
+  looking odd). `tests/page-content.test.ts` keeps the header free of graphics other than the arrow of the button.
+  The Argentine identity comes from the celeste accent colour and the flag tile in `public/favicon.svg`.
+- **Hero copy**: "Cargá el tuyo en este formulario..." starts on its own line (`<br />`). The hero does not repeat the
+  eligibility or how long the form takes: they live in the requirements section and in the form itself.
 - **Palette**: Tailwind's `celeste-*` tokens (the flag's light blue) are defined in `src/styles.css`; gold is
   `amber-400`. Tailwind's `sky-*` is only used for the hero gradient.
 - **Share preview**: `public/og-image.png` (1200x630) is what Discord, WhatsApp or X show when the link is pasted.
@@ -143,7 +145,7 @@ Close the form, then disable GitHub Pages (Settings -> Pages) or delete the repo
 
 ```
 site.config.json     public values (see Configuration)
-index.html           es-AR markup; {{placeholders}} are filled at build time; inline SVG symbols (sun, check, arrow)
+index.html           es-AR markup; {{placeholders}} are filled at build time; inline SVG symbols (check, arrow)
 vite.config.ts       base './', output to docs/, Tailwind and html-config plugins, Vitest config
 public/              favicon.svg, og-image.png, .nojekyll (copied as they are to docs/)
 tools/html-config.ts template renderer + Vite plugin that validates site.config.json

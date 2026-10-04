@@ -49,6 +49,41 @@ describe('branding', () => {
   });
 });
 
+describe('hero', () => {
+  const header = (): Element => {
+    const element = doc.querySelector('header');
+    if (element === null) {
+      throw new Error('the page has no header');
+    }
+    return element;
+  };
+
+  it('has no decorative graphics: the only SVG is the arrow of the call to action', () => {
+    const svgs = header().querySelectorAll('svg');
+    expect(svgs).toHaveLength(1);
+    expect(svgs[0]?.querySelector('use')?.getAttribute('href')).toBe('#arrow-down');
+    expect(doc.getElementById('sol')).toBeNull();
+  });
+
+  it('highlights "argentinos" in yellow in the heading', () => {
+    const accent = header().querySelector('h1 span');
+    expect(accent?.textContent).toBe('argentinos');
+    expect(accent?.className).toContain('text-amber-400');
+  });
+
+  it('does not list quick facts under the button', () => {
+    expect(header().querySelector('ul')).toBeNull();
+    expect(header().textContent).not.toMatch(/Lleva menos de 2 minutos/);
+    expect(header().textContent).not.toMatch(/Solo para estudios con base en Argentina/);
+  });
+
+  it('starts the call to action sentence on its own line', () => {
+    const intro = [...header().querySelectorAll('p')].find((p) => p.textContent?.includes('Cargá el tuyo'));
+    expect(intro).toBeDefined();
+    expect(intro?.innerHTML).toMatch(/de acá\.\s*<br>\s*Cargá el tuyo en este formulario/);
+  });
+});
+
 describe('document', () => {
   it('has a single h1 that carries the pitch', () => {
     const headings = doc.querySelectorAll('h1');

@@ -2,53 +2,25 @@
   <!--
     Source of public/og-image.png (the preview card shown when the link is shared on Discord, WhatsApp, X...).
     To regenerate: open this file in Chrome with a 1200x630 viewport and save a screenshot as public/og-image.png.
-    Keep the texts in sync with the h1 of index.html.
+    Keep the texts in sync with the hero of index.html.
   -->
   <defs>
     <linearGradient id="fondo" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0" stop-color="#0a3250" />
       <stop offset="1" stop-color="#0f172a" />
     </linearGradient>
-    <symbol id="sol" viewBox="0 0 64 64">
-      <circle cx="32" cy="32" r="10" fill="currentColor" />
-      <g stroke="currentColor" stroke-linecap="round">
-        <line x1="32" y1="15" x2="32" y2="3" />
-        <line x1="38.51" y1="16.29" x2="41.57" y2="8.9" />
-        <line x1="44.02" y1="19.98" x2="52.51" y2="11.49" />
-        <line x1="47.71" y1="25.49" x2="55.1" y2="22.43" />
-        <line x1="49" y1="32" x2="61" y2="32" />
-        <line x1="47.71" y1="38.51" x2="55.1" y2="41.57" />
-        <line x1="44.02" y1="44.02" x2="52.51" y2="52.51" />
-        <line x1="38.51" y1="47.71" x2="41.57" y2="55.1" />
-        <line x1="32" y1="49" x2="32" y2="61" />
-        <line x1="25.49" y1="47.71" x2="22.43" y2="55.1" />
-        <line x1="19.98" y1="44.02" x2="11.49" y2="52.51" />
-        <line x1="16.29" y1="38.51" x2="8.9" y2="41.57" />
-        <line x1="15" y1="32" x2="3" y2="32" />
-        <line x1="16.29" y1="25.49" x2="8.9" y2="22.43" />
-        <line x1="19.98" y1="19.98" x2="11.49" y2="11.49" />
-        <line x1="25.49" y1="16.29" x2="22.43" y2="8.9" />
-      </g>
-    </symbol>
   </defs>
 
   <rect width="1200" height="630" fill="url(#fondo)" />
 
-  <!-- Faint sun, cropped by the right edge -->
-  <use href="#sol" x="640" y="-150" width="720" height="720" color="#75aadb" opacity="0.10" stroke-width="1.5" />
+  <text x="80" y="112" font-size="24" font-weight="600" letter-spacing="3" fill="#a3c4e8">COMUNIDAD STEAM ARGENTINA · LANZAMIENTOS DE LA SEMANA</text>
 
-  <!-- Brand -->
-  <use href="#sol" x="80" y="60" width="72" height="72" color="#fbbf24" stroke-width="3" />
-  <text x="172" y="92" font-size="26" font-weight="700" letter-spacing="4" fill="#a3c4e8">COMUNIDAD STEAM ARGENTINA</text>
-  <text x="172" y="124" font-size="24" fill="#94a3b8">Lanzamientos de la semana</text>
-
-  <!-- Headline -->
-  <text font-size="88" font-weight="800" letter-spacing="-2" fill="#ffffff">
-    <tspan x="80" y="270">Sumá tu juego a</tspan>
-    <tspan x="80" y="362">los lanzamientos</tspan>
-    <tspan x="80" y="454"><tspan fill="#a3c4e8">argentinos</tspan> en Steam</tspan>
+  <text font-size="96" font-weight="800" letter-spacing="-2" fill="#ffffff">
+    <tspan x="80" y="262">Sumá tu juego a</tspan>
+    <tspan x="80" y="364">los lanzamientos</tspan>
+    <tspan x="80" y="466"><tspan fill="#fbbf24">argentinos</tspan> en Steam</tspan>
   </text>
 
-  <text x="80" y="528" font-size="30" fill="#cbd5e1">Formulario para estudios y desarrolladores/as de Argentina</text>
-  <text x="80" y="578" font-size="24" fill="#64748b">freddre.github.io/formulario-devs-arg</text>
+  <text x="80" y="540" font-size="30" fill="#cbd5e1">Cargá tu juego en el formulario y lo sumamos al próximo anuncio.</text>
+  <text x="80" y="584" font-size="24" fill="#64748b">freddre.github.io/formulario-devs-arg</text>
 </svg>
