@@ -84,6 +84,76 @@ describe('hero', () => {
   });
 });
 
+describe('sections', () => {
+  const headings = (): string[] =>
+    [...doc.querySelectorAll('main h2')].map((heading) => heading.textContent?.trim() ?? '');
+
+  it('puts who can participate right below how it works, ahead of the form', () => {
+    expect(headings()).toEqual(['Cómo funciona', 'Quiénes pueden participar', 'Cargá tu juego', 'Privacidad']);
+  });
+
+  it('still sends the skip link and the call to action to the form', () => {
+    const targets = [...doc.querySelectorAll('a[href="#formulario"]')];
+    expect(targets).toHaveLength(2);
+    expect(doc.getElementById('formulario')?.querySelector('h2')?.textContent).toBe('Cargá tu juego');
+  });
+});
+
+describe('eligibility list', () => {
+  const section = (): Element => {
+    const element = doc.getElementById('requisitos-titulo')?.closest('section');
+    if (element === undefined || element === null) {
+      throw new Error('the page has no eligibility section');
+    }
+    return element;
+  };
+  const items = (): Element[] => [...section().querySelectorAll('ul > li')];
+  /** Icon of one list item: the SVG inside its decorative tile. */
+  const iconOf = (item: Element): Element | null => item.querySelector('[aria-hidden="true"] svg');
+  const markup = (svg: Element | null): string => svg?.innerHTML.replace(/\s+/g, ' ').trim() ?? '';
+
+  it('keeps the four requirements, in order', () => {
+    const texts = items().map((item) => item.textContent?.replace(/\s+/g, ' ').trim() ?? '');
+    expect(texts).toHaveLength(4);
+    expect(texts[0]).toContain('con base en Argentina');
+    expect(texts[1]).toContain('su página en Steam');
+    expect(texts[2]).toContain('acceso anticipado');
+    expect(texts[3]).toContain('Revisamos todos los envíos');
+  });
+
+  it('gives every item its own drawn icon instead of a repeated check mark', () => {
+    const icons = items().map(iconOf);
+    expect(icons.every((icon) => icon !== null)).toBe(true);
+    expect(icons.every((icon) => icon?.querySelector('use') === null)).toBe(true);
+    expect(doc.getElementById('check')).toBeNull();
+
+    const drawings = icons.map(markup);
+    expect(drawings.every((drawing) => drawing.length > 0)).toBe(true);
+    expect(new Set(drawings).size).toBe(drawings.length);
+  });
+
+  it('does not reuse an icon of the steps above', () => {
+    const steps = doc.getElementById('como-funciona-titulo')?.closest('section');
+    const stepIcons = [...(steps?.querySelectorAll('svg') ?? [])].map(markup);
+    expect(stepIcons).toHaveLength(3);
+    for (const item of items()) {
+      expect(stepIcons).not.toContain(markup(iconOf(item)));
+    }
+  });
+
+  it('uses the same celeste tile as the steps, with a larger fixed-size icon that never shrinks', () => {
+    for (const item of items()) {
+      const tile = item.firstElementChild;
+      expect(tile?.getAttribute('aria-hidden')).toBe('true');
+      expect(tile?.className).toContain('size-12');
+      expect(tile?.className).toContain('shrink-0');
+      expect(tile?.className).toContain('bg-celeste-400/15');
+      expect(tile?.className).toContain('ring-celeste-400/30');
+      expect(iconOf(item)?.getAttribute('class')).toBe('size-7');
+    }
+  });
+});
+
 describe('document', () => {
   it('has a single h1 that carries the pitch', () => {
     const headings = doc.querySelectorAll('h1');

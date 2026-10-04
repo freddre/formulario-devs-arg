@@ -123,6 +123,11 @@ or too tall for its table.
   The Argentine identity comes from the celeste accent colour and the flag tile in `public/favicon.svg`.
 - **Hero copy**: "Cargá el tuyo en este formulario..." starts on its own line (`<br />`). The hero does not repeat the
   eligibility or how long the form takes: they live in the requirements section and in the form itself.
+- **Section order**: "Cómo funciona", "Quiénes pueden participar", the form, "Privacidad". Eligibility comes before
+  the form so people see whether they qualify before they fill it in. Every item of the eligibility list has its own
+  icon (map pin, store page, rocket, shield with a check), drawn on a 24-unit grid with a 1.75 stroke and
+  `currentColor`, inside the same celeste tile as the steps (48px tile, 28px icon). A new item needs a new icon:
+  `tests/page-content.test.ts` fails when two icons repeat or a plain check mark comes back.
 - **Palette**: Tailwind's `celeste-*` tokens (the flag's light blue) are defined in `src/styles.css`; gold is
   `amber-400`. Tailwind's `sky-*` is only used for the hero gradient.
 - **Share preview**: `public/og-image.png` (1200x630) is what Discord, WhatsApp or X show when the link is pasted.
@@ -145,7 +150,7 @@ Close the form, then disable GitHub Pages (Settings -> Pages) or delete the repo
 
 ```
 site.config.json     public values (see Configuration)
-index.html           es-AR markup; {{placeholders}} are filled at build time; inline SVG symbols (check, arrow)
+index.html           es-AR markup; {{placeholders}} are filled at build time; inline SVG icons (one shared symbol: arrow)
 vite.config.ts       base './', output to docs/, Tailwind and html-config plugins, Vitest config
 public/              favicon.svg, og-image.png, .nojekyll (copied as they are to docs/)
 tools/html-config.ts template renderer + Vite plugin that validates site.config.json
